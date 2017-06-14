@@ -7,7 +7,6 @@ function assertName(operation, done) {
     .then(() => User.find({}))
             .then((users) => {
                 assert(users.length === 1);
-                console.log(users[0].name);
                 assert(users[0].name === 'raja');
                 done()
             });
@@ -16,7 +15,7 @@ describe("Updating model ->",() =>
 {
     let aravinth;
     beforeEach( (done) =>{
-        aravinth =  new User({name:'Aravinth'});
+        aravinth =  new User({name:'Aravinth',postCount:0});
         aravinth.save()
             .then(() => {
                 done()
@@ -47,5 +46,14 @@ describe("Updating model ->",() =>
     });
     it('Model class can find by id and update',(done) =>{
         assertName( User.findByIdAndUpdate(aravinth._id, {name : 'raja'}) , done );
+    });
+
+    it('Increament the post count by 1',(done) =>{
+        User.update({name : 'Aravinth'},{$inc:{postCount:1}})
+            .then(() => User.findOne({name:'Aravinth'}))
+            .then((user) => {
+                    assert(user.postCount === 1);
+                    done();
+            });
     });
 });

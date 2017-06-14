@@ -23,7 +23,6 @@ describe("create model",() =>{
 
         User.findOne({ _id : aravinth._id })
             .then((user) =>{
-                console.log(user.name);
                 assert(user.name === 'Aravinth');
                 done();
             })
